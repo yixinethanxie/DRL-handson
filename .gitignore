@@ -1,2 +1,4 @@
 .ipynb_checkpoints/
 runs/
+.DS_Store
+mon/
