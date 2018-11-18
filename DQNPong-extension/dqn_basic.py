@@ -13,7 +13,7 @@ from lib import dqn_model, common
 
 if __name__ == "__main__":
     params=common.HYPERPARAMS["pong"]
-    device=torch.device("cpu")
+    device=torch.device("cuda")
 
     '''
     set up environment with following wrappers:
@@ -104,8 +104,8 @@ if __name__ == "__main__":
             '''
             not train the NNs until buffer's size in more than replay inital
             '''
-             if len(buffer)<params["replay_initial"]:
-                 continue
+            if len(buffer)<params["replay_initial"]:
+                continue
 
             optimizer.zero_grad()
 
