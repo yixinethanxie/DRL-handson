@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     '''
     1. starts from EPSILON_START
-    2. decrease epsilon linearly by frames 
+    2. decrease epsilon linearly by frames
     3. until epsilon hits EPSILON_FINAL
     '''
     epsilon_tracker=common.EpsilonTracker(selector,params)
@@ -101,32 +101,32 @@ if __name__ == "__main__":
                 if reward_tracker.reward(new_rewards[0],frame_idx,selector.epsilon):
                     break
 
-                '''
-                not train the NNs until buffer's size in more than replay inital
-                '''
-                if len(buffer)<params["replay_initial"]:
-                    continue
+            '''
+            not train the NNs until buffer's size in more than replay inital
+            '''
+             if len(buffer)<params["replay_initial"]:
+                 continue
 
-                optimizer.zero_grad()
+            optimizer.zero_grad()
 
-                '''
-                sample from experience buffer
-                '''
-                batch=buffer.sample(params["batch_size"])
+            '''
+            sample from experience buffer
+            '''
+            batch=buffer.sample(params["batch_size"])
 
-                '''
-                calculate loss between:
-                1. actions' q values from main NN using current state
-                    (WARNING: this is not just the max of the outputs)
-                2. output of bell equation:
-                    max of outputs from TARGET NN using next state*gamma + this step's reward
-                '''
-                loss_v=common.calc_loss_dqn(batch,net,tgt_net.target_model, gamma=params["gamma"],device=device)
-                loss_v.backward()
-                optimizer.step()
+            '''
+            calculate loss between:
+            1. actions' q values from main NN using current state
+                (WARNING: this is not just the max of the outputs)
+            2. output of bell equation:
+                max of outputs from TARGET NN using next state*gamma + this step's reward
+            '''
+            loss_v=common.calc_loss_dqn(batch,net,tgt_net.target_model, gamma=params["gamma"],device=device)
+            loss_v.backward()
+            optimizer.step()
 
-                '''
-                sync target NN with main NN every target_net_sync steps
-                '''
-                if frame_idx % params["target_net_sync"]==0:
-                    tgt_net.sync()
+            '''
+            sync target NN with main NN every target_net_sync steps
+            '''
+            if frame_idx % params["target_net_sync"]==0:
+                tgt_net.sync()
