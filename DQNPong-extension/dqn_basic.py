@@ -29,7 +29,7 @@ if __name__ == "__main__":
     env=ptan.common.wrappers.wrap_dqn(gym.make(params["env_name"]))
 
     run_name=params["run_name"]
-    writer=SummaryWriter(comment=f"-{run_name}")
+    writer=SummaryWriter(comment=f"-{run_name}-basic")
 
     net=dqn_model.DQN(env.observation_space.shape,env.action_space.n).to(device)
 
